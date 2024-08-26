@@ -129,8 +129,7 @@ public class c1_Introduction extends IntroductionBase {
 
         serviceResult
                 .doOnNext(companyList::add)
-        //todo: add an operator here, don't use any blocking operator!
-        ;
+                .subscribe();
 
         Thread.sleep(1000); //bonus: can you explain why this line is needed?
 
@@ -152,9 +151,9 @@ public class c1_Introduction extends IntroductionBase {
         AtomicReference<Boolean> serviceCallCompleted = new AtomicReference<>(false);
         CopyOnWriteArrayList<String> companyList = new CopyOnWriteArrayList<>();
 
-        fortuneTop5()
-        //todo: change this line only
-        ;
+        fortuneTop5().subscribe(companyList::add,
+                null,
+                () -> serviceCallCompleted.set(true));
 
         Thread.sleep(1000);
 
