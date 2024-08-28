@@ -27,8 +27,7 @@ public class c3_FilteringSequence extends FilteringSequenceBase {
     @Test
     public void girls_are_made_of_sugar_and_spice() {
         Flux<String> shortListed = popular_girl_names_service()
-          .filter(s -> s.length() <= 4)
-                ;
+          .filter(s -> s.length() <= 4);
 
         StepVerifier.create(shortListed)
                     .expectNext("Emma", "Ava", "Mia", "Luna", "Ella")
