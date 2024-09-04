@@ -54,6 +54,8 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
      *
      * Answer:
      * - Is there a difference between Mono.flatMap() and Flux.flatMap()?
+     * - Chapter6 notes.md
+     *
      */
     @Test
     public void task_executor() {

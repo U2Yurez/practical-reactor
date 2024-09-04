@@ -97,8 +97,7 @@ public class c3_FilteringSequence extends FilteringSequenceBase {
     @Test
     public void not_a_binary_search() {
         Flux<Integer> numbers = number_service()
-          .takeLast(100)
-                ;
+          .takeLast(100);
 
         StepVerifier.create(numbers)
                     .expectNextMatches(i -> i >= 200)
