@@ -165,7 +165,6 @@ public class c7_ErrorHandling extends ErrorHandlingBase {
      */
     @Test
     public void resilience() {
-        //todo: change code as you need
         Flux<String> content = getFilesContent()
           .flatMap(file -> file
             .doOnError(e -> System.out.println("Error occurred while reading file: " + e.getMessage()))
@@ -213,7 +212,6 @@ public class c7_ErrorHandling extends ErrorHandlingBase {
      */
     @Test
     public void good_old_polling() {
-        //todo: change code as you need
         Flux<String> alerts = nodeAlerts()
           .repeatWhenEmpty(it -> it.delayElements(Duration.ofSeconds(1)))
           .repeat();
