@@ -18,9 +18,9 @@ public class ExecutionControlBase {
     }
 
     public Flux<String> semaphore() {
-        return Flux.interval(
-                Duration.ofMillis(2250)
-        ).map(s -> "go").doOnNext(s -> System.out.println("Semaphore says: " + s));
+        return Flux.interval(Duration.ofMillis(2250))
+                .map(s -> "go")
+                .doOnNext(s -> System.out.println("Semaphore says: " + s));
     }
 
     public Flux<Mono<String>> tasks() {

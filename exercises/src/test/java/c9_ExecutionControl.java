@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.blockhound.BlockHound;
 import reactor.core.Exceptions;
 import reactor.core.Scannable;
@@ -47,9 +48,8 @@ public class c9_ExecutionControl extends ExecutionControlBase {
     public void slow_down_there_buckaroo() {
         long threadId = Thread.currentThread().getId();
         Flux<String> notifications = readNotifications()
-                .doOnNext(System.out::println)
-                //todo: change this line only
-                ;
+                .delayElements(Duration.ofSeconds(1))
+                .doOnNext(System.out::println);
 
         StepVerifier.create(notifications
                                     .doOnNext(s -> assertThread(threadId)))
@@ -60,9 +60,9 @@ public class c9_ExecutionControl extends ExecutionControlBase {
     private void assertThread(long invokerThreadId) {
         long currentThread = Thread.currentThread().getId();
         if (currentThread != invokerThreadId) {
-            System.out.println("-> Not on the same thread");
+            System.out.println("-> Not on the same thread  " + invokerThreadId + " current thread is - " + currentThread);
         } else {
-            System.out.println("-> On the same thread");
+            System.out.println("-> On the same thread! current thread is - " + currentThread );
         }
         Assertions.assertTrue(currentThread != invokerThreadId, "Expected to be on a different thread");
     }
@@ -77,8 +77,8 @@ public class c9_ExecutionControl extends ExecutionControlBase {
     public void ready_set_go() {
         //todo: feel free to change code as you need
         Flux<String> tasks = tasks()
-                .flatMap(Function.identity());
-        semaphore();
+                .concatMap(task -> task.delaySubscription(semaphore()));
+
 
         //don't change code below
         StepVerifier.create(tasks)
@@ -104,8 +104,8 @@ public class c9_ExecutionControl extends ExecutionControlBase {
                                   assert NonBlocking.class.isAssignableFrom(Thread.currentThread().getClass());
                                   System.out.println("Task executing on: " + currentThread.getName());
                               })
-                              //todo: change this line only
-                              .then();
+                .subscribeOn(Schedulers.parallel())
+                .then();
 
         StepVerifier.create(task)
                     .verifyComplete();
