@@ -92,9 +92,11 @@ public class c10_Backpressure extends BackpressureBase {
      */
     @Test
     public void uuid_generator() {
-        Flux<UUID> uuidGenerator = Flux.create(sink -> {
-            //todo: do your changes here
-        });
+        Flux<UUID> uuidGenerator = Flux.create(sink -> sink.onRequest(r -> {
+            for (int i = 0; i < r; i++) {
+                sink.next(UUID.randomUUID());
+            }
+        }));
 
         StepVerifier.create(uuidGenerator
                                     .doOnNext(System.out::println)
@@ -115,8 +117,8 @@ public class c10_Backpressure extends BackpressureBase {
     @Test
     public void pressure_is_too_much() {
         Flux<String> messageStream = messageStream3()
-                //todo: change this line only
-                ;
+          .onBackpressureError();
+
 
         StepVerifier.create(messageStream, StepVerifierOptions.create()
                                                               .initialRequest(0))
