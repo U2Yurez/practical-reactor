@@ -280,11 +280,11 @@ public class c5_CreatingSequence {
             sink.complete();
         });
 
-        StepVerifier.create(generateFlux)
+        StepVerifier.create(generateFlux.doOnNext(System.out::println))
                     .expectNext(0, 1, 2, 3, 4, 5)
                     .verifyComplete();
 
-        StepVerifier.create(createFlux)
+        StepVerifier.create(createFlux.doOnNext(System.out::println))
                     .expectNext(0, 1, 2, 3, 4, 5)
                     .verifyComplete();
 
@@ -298,7 +298,6 @@ public class c5_CreatingSequence {
      */
     @Test
     public void multi_threaded_producer() {
-        //todo: find a bug and fix it!
         Flux<Integer> producer = Flux.create(sink -> {
             for (int i = 0; i < 100; i++) {
                 int finalI = i;
@@ -313,4 +312,7 @@ public class c5_CreatingSequence {
                     .expectNextCount(100)
                     .verifyComplete();
     }
+
+
+
 }
