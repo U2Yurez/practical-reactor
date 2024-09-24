@@ -93,7 +93,6 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
    */
   @Test
   public void i_am_rubber_you_are_glue() {
-    //todo: feel free to change code as you need
 //        Flux<Integer> numbers = Flux.concat(numberService1(), numberService2());
     Flux<Integer> numbers = numberService1().concatWith(numberService2());
 
@@ -118,8 +117,7 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
    */
   @Test
   public void task_executor_again() {
-    //todo: feel free to change code as you need
-    //Flux<Void> tasks = taskExecutor().concatMap(Function.identity());
+   // Flux<Void> tasks = taskExecutor().concatMap(Function.identity());
     Flux<Void> tasks = taskExecutor().flatMapSequential(Function.identity());
 
     //don't change below this line
@@ -136,7 +134,6 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
    */
   @Test
   public void need_for_speed() {
-    //todo: feel free to change code as you need
     Flux<String> stonks = Flux.firstWithSignal(getStocksRest(), getStocksGrpc());
 
     //don't change below this line
@@ -152,7 +149,6 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
    */
   @Test
   public void plan_b() {
-    //todo: feel free to change code as you need
     Flux<String> stonks = getStocksLocalCache()
       .switchIfEmpty(getStocksRest());
 
@@ -170,7 +166,6 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
    */
   @Test
   public void mail_box_switcher() {
-    //todo: feel free to change code as you need
     Flux<Message> myMail = mailBoxPrimary()
       .switchOnFirst((first, mailBoxPrimary) -> {
         if (first.get().metaData.contains("spam")) {
@@ -197,7 +192,6 @@ public class c6_CombiningPublishers extends CombiningPublishersBase {
    */
   @Test
   public void instant_search() {
-    //todo: feel free to change code as you need
     Flux<String> suggestions = userSearchInput().switchMap(this::autoComplete);
 
 
